@@ -1,17 +1,34 @@
 <script lang="ts" context="module">
-	export const prerender = true;
+	import type { Load } from '@sveltejs/kit';
+	import type { Colors } from '$lib/types';
+
+	import { colors } from '$lib/utils/stores';
+
+	export const load: Load = ({ session }) => {
+		const locals = session as Partial<{ colors: Colors }>;
+		const color_preference = locals.colors;
+		console.log(color_preference);
+		if (color_preference) {
+			colors.set(color_preference);
+		}
+		return {};
+	};
 </script>
 
 <script lang="ts">
-	import { formatTime } from '$lib/formats';
-	import { time_unit } from '$lib/parse';
+	import { formatTime } from '$lib/utils/formats';
+	import { time_unit } from '$lib/utils/parse';
 	import { onMount } from 'svelte';
+
+	import Customize from '$lib/components/Customize.svelte';
+	import Help from '$lib/components/Help.svelte';
 
 	let input: string;
 	let seconds: number = null;
 	let input_element: HTMLInputElement;
 
 	const inputParser = (input: string): number => {
+		if (!input) return null;
 		let result = 0;
 		if (input.includes(':')) {
 			const time_texts = input.split(':');
@@ -90,13 +107,6 @@
 		seconds = result;
 	};
 
-	const handleKeydown: EventListener = (e) => {
-		const e_keydown = e as KeyboardEvent;
-		if (e_keydown.key === 'Enter') {
-			convertTime();
-		}
-	};
-
 	const reset = () => {
 		stop();
 		toggle_count = 0;
@@ -123,16 +133,39 @@
 
 	let toggle_count = 0;
 
-	const handleCommand: EventListener = (e) => {
+	const handleKeydown: EventListener = (e) => {
 		const e_keydown = e as KeyboardEvent;
-		if (e_keydown.key === ' ' && document.activeElement !== input_element) {
-			toggle_count += 1;
-			if (toggle_count % 2 === 1) {
-				start();
-			} else {
-				stop();
+		if (document.activeElement === input_element) {
+			if (e_keydown.key === 'Enter') {
+				convertTime();
+				return;
 			}
+			return;
 		}
+		console.log('handleCommand');
+		if (e_keydown.key === ' ') {
+			toggleTimer();
+			return;
+		}
+		if (e_keydown.key === 'Enter') {
+			reset();
+			return;
+		}
+	};
+
+	const toggleTimer = () => {
+		toggle_count += 1;
+		if (toggle_count % 2 === 1) {
+			start();
+		} else {
+			stop();
+		}
+	};
+
+	let current_block = null;
+
+	const changeBlock = (block: string) => {
+		current_block = block;
 	};
 
 	onMount(() => {
@@ -141,21 +174,56 @@
 	});
 </script>
 
-<svelte:window on:keydown={handleCommand} />
-<div class="min-h-screen flex place-items-center place-content-center p-4">
-	<div>
-		{#if seconds !== null}
-			<p class="text-6xl sm:text-7xl md:text-8xl font-semibold cursor-pointer" on:click={reset}>
-				{formatTime(seconds)}
-			</p>
+<svelte:window on:keydown={handleKeydown} />
+<div class="absolute top-0 w-full flex p-4 sm:px-8 place-content-between place-items-center z-50">
+	<p class="text-lg font-medium" style:color={$colors.logo}>niagara</p>
+	<div class="flex gap-2 text-sm">
+		{#if !current_block}
+			<button class="hover:underline" on:click={reset}>reset</button>
+			<button
+				class="hover:underline"
+				on:click={() => {
+					changeBlock('help');
+				}}>help</button
+			>
+			<button
+				class="hover:underline"
+				on:click={() => {
+					changeBlock('customize');
+				}}>customize</button
+			>
 		{:else}
-			<input
-				type="text"
-				class="outline-none text-center text-6xl sm:text-7xl md:text-8xl font-semibold w-full"
-				on:keydown={handleKeydown}
-				bind:value={input}
-				bind:this={input_element}
-			/>
+			<button
+				class="hover:underline"
+				on:click={() => {
+					changeBlock(null);
+				}}>close</button
+			>
 		{/if}
 	</div>
+</div>
+<div class="min-h-screen flex place-items-center place-content-center px-4 md:px-8">
+	{#if current_block === 'help'}
+		<Help />
+	{:else if current_block === 'customize'}
+		<Customize />
+	{:else}
+		<div style:color={$colors.timer}>
+			{#if seconds !== null}
+				<p
+					class="text-6xl sm:text-7xl md:text-8xl font-semibold cursor-pointer"
+					on:click={toggleTimer}
+				>
+					{formatTime(seconds)}
+				</p>
+			{:else}
+				<input
+					type="text"
+					class="outline-none text-center text-6xl sm:text-7xl md:text-8xl font-semibold w-full bg-transparent"
+					bind:value={input}
+					bind:this={input_element}
+				/>
+			{/if}
+		</div>
+	{/if}
 </div>

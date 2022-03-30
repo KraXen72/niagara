@@ -17,6 +17,8 @@
     "@playwright/test": "^1.20.0",
     "@sveltejs/adapter-auto": "next",
     "@sveltejs/kit": "next",
+    "@types/cookie": "^0.4.1",
+    "@types/js-cookie": "^3.0.1",
     "@typescript-eslint/eslint-plugin": "^5.10.1",
     "@typescript-eslint/parser": "^5.10.1",
     "autoprefixer": "^10.4.4",
@@ -33,5 +35,9 @@
     "tslib": "^2.3.1",
     "typescript": "~4.6.2"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "cookie": "^0.4.2",
+    "js-cookie": "^3.0.1"
+  }
 }
