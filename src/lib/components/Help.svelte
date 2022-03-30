@@ -27,6 +27,9 @@
 			<p>* seconds: seconds, second, secs, sec, s</p>
 		</div>
 	</div>
+    <div>
+        <a class="hover:underline" href="https://github.com/pilcrowOnPaper/niagara">Github Repo</a>
+    </div>
 </div>
 
 <style>
