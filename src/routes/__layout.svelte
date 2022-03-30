@@ -1,5 +1,6 @@
-<script>
+<script lang="ts">
 	import '../app.css';
+	import { colors } from '$lib/utils/stores';
 </script>
 
 <svelte:head>
@@ -13,10 +14,7 @@
 	<meta name="description" content="simple, minimal timer" />
 </svelte:head>
 
-<div class="relative">
-	<div class="absolute top-0 left-0 p-4">
-		<p class="font-medium text-gray-300 text-lg">niagara</p>
-	</div>
+<div style:color={$colors.text} style:background-color={$colors.bg}>
 	<slot />
 </div>
 
