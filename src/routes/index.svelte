@@ -16,7 +16,7 @@
 </script>
 
 <script lang="ts">
-	import { formatTime } from '$lib/utils/formats';
+	import { formatTime } from '$lib/utils/format';
 	import { time_unit } from '$lib/utils/parse';
 	import { onMount } from 'svelte';
 
@@ -37,10 +37,10 @@
 			const time_texts_reverse = time_texts.reverse();
 			for (let i = 0; i < time_texts_reverse.length; i++) {
 				let val = time_texts_reverse[i];
-				if (val.length !== 2) return null;
+				if (val.length !== 2 && i !== time_texts_reverse.length - 1) return null;
 				const num = toInt(val);
 				if (isNaN(num)) return null;
-				const limit = seconds[i + 1] || 24;
+				const limit = seconds[i + 1] || 100;
 				console.log(num, limit);
 				if (num > limit) return null;
 				result += num * seconds[i];

@@ -1,7 +1,7 @@
 export const formatTime = (time: number): string => {
 	const seconds = Math.floor(time % 60);
 	const minutes = Math.floor((time / 60) % 60);
-	const hours = Math.floor((time / (60 * 60)) % 24);
+	const hours = Math.floor((time / (60 * 60)));
 	return `${time < 0 ? '-' : ''}${toNDigit(hours, 2)}:${toNDigit(minutes, 2)}:${toNDigit(
 		seconds,
 		2
