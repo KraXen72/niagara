@@ -11,7 +11,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			colors: JSON.parse(colors)
 		};
 	}
-	return resolve(event);
+	return await resolve(event);
 };
 
 export const getSession: GetSession = async (event) => {
