@@ -7,7 +7,6 @@
 	export const load: Load = ({ session }) => {
 		const locals = session as Partial<{ colors: Colors }>;
 		const color_preference = locals.colors;
-		console.log(color_preference);
 		if (color_preference) {
 			colors.set(color_preference);
 		}

@@ -6,7 +6,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const { colors } = cookie.parse(event.request.headers.get('cookie') || '') as Partial<{
 		colors: string;
 	}>;
-	console.log(colors);
 	if (colors) {
 		event.locals = {
 			colors: JSON.parse(colors)
