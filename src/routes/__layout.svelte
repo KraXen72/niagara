@@ -10,7 +10,7 @@
 		rel="stylesheet"
 	/>
 	<title>niagara</title>
-	<meta name="description" content="minimal, simple timer" />
+	<meta name="description" content="simple, minimal timer" />
 </svelte:head>
 
 <div class="relative">
