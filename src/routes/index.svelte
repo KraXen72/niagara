@@ -210,7 +210,7 @@
 		<div style:color={$colors.timer}>
 			{#if seconds !== null}
 				<p
-					class="text-6xl sm:text-7xl md:text-8xl font-semibold cursor-pointer"
+					class="text-6xl sm:text-7xl md:text-8xl font-semibold cursor-pointer tabular-nums"
 					on:click={toggleTimer}
 				>
 					{formatTime(seconds)}
