@@ -170,14 +170,16 @@
 
 	onMount(() => {
 		const darkMode = () => {
-			const dark: boolean = window.matchMedia('(prefers-color-scheme: dark').matches;
-			if (dark && !$preferences) {
-				$colors = {
-					bg: '#111110',
-					timer: '#dddddd',
-					text: '#dddddd',
-					logo: '#d1d5db'
-				};
+			if (window.matchMedia){
+				const dark: boolean = window.matchMedia('(prefers-color-scheme: dark)').matches;
+				if (dark && !$preferences) {
+					$colors = {
+						bg: '#111110',
+						timer: '#dddddd',
+						text: '#dddddd',
+						logo: '#d1d5db'
+					};
+				}
 			}
 		};
 		darkMode();
