@@ -2,13 +2,14 @@
 	import type { Load } from '@sveltejs/kit';
 	import type { Colors } from '$lib/types';
 
-	import { colors } from '$lib/utils/stores';
+	import { colors, preferences } from '$lib/utils/stores';
 
 	export const load: Load = ({ session }) => {
 		const locals = session as Partial<{ colors: Colors }>;
 		const color_preference = locals.colors;
 		if (color_preference) {
 			colors.set(color_preference);
+			preferences.set(true);
 		}
 		return {};
 	};
@@ -168,6 +169,20 @@
 	};
 
 	onMount(() => {
+		const darkMode = () => {
+			if (window.matchMedia){
+				const dark: boolean = window.matchMedia('(prefers-color-scheme: dark)').matches;
+				if (dark && !$preferences) {
+					$colors = {
+						bg: '#111110',
+						timer: '#dddddd',
+						text: '#dddddd',
+						logo: '#d1d5db'
+					};
+				}
+			}
+		};
+		darkMode();
 		input_element.focus();
 		return stop();
 	});

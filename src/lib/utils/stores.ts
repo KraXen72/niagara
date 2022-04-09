@@ -7,3 +7,4 @@ export const colors: Writable<Colors> = writable({
 	text: '#000000',
 	logo: '#d1d5db'
 });
+export const preferences: Writable<boolean> = writable(false);
