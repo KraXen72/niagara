@@ -225,7 +225,10 @@
 		<div style:color={$colors.timer}>
 			{#if seconds !== null}
 				<p
-					class="text-6xl sm:text-7xl md:text-8xl font-semibold cursor-pointer tabular-nums"
+					class="text-6xl sm:text-7xl md:text-8xl font-semibold cursor-pointer tabular-nums rounded-md p-3
+					hover:bg-[rgba(121,121,121,.12)]
+					active:bg-[rgba(121,121,121,.3)]
+					transition-all"
 					on:click={toggleTimer}
 				>
 					{formatTime(seconds)}

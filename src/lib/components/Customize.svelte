@@ -12,7 +12,7 @@
 	<div class="flex gap-2 place-items-center">
 		<input
 			type="color"
-			class="border rounded"
+			class="border rounded cursor-pointer"
 			style:border-color={$colors.text}
 			style:background-color={$colors.bg}
 			bind:value={$colors.bg}
@@ -23,7 +23,7 @@
 	<div class="flex gap-2">
 		<input
 			type="color"
-			class="border rounded"
+			class="border rounded cursor-pointer"
 			style:border-color={$colors.text}
 			style:background-color={$colors.timer}
 			bind:value={$colors.timer}
@@ -34,7 +34,7 @@
 	<div class="flex gap-2">
 		<input
 			type="color"
-			class="border rounded"
+			class="border rounded cursor-pointer"
 			style:border-color={$colors.text}
 			style:background-color={$colors.text}
 			bind:value={$colors.text}
@@ -45,7 +45,7 @@
 	<div class="flex gap-2">
 		<input
 			type="color"
-			class="border rounded"
+			class="border rounded cursor-pointer"
 			style:border-color={$colors.text}
 			style:background-color={$colors.logo}
 			bind:value={$colors.logo}
