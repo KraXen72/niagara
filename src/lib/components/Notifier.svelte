@@ -8,10 +8,8 @@
     async function triggerPermissionRequest() {
         if (notificationSupported) {
             try {
-                if (Notification.permission === 'default') {
-                    permissionGranted = await Notification.requestPermission() === 'granted' ? true : false
-                    showNotice = false
-                }
+                permissionGranted = await Notification.requestPermission() === 'granted' ? true : false
+                showNotice = false
                 console.log(permissionGranted)
             } catch (e) {
                 showNotice = false
