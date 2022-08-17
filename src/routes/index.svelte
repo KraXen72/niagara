@@ -197,6 +197,7 @@
 <svelte:window on:keydown={handleKeydown} />
 <div class="absolute top-0 w-full flex p-4 sm:px-8 place-content-between place-items-center z-50">
 	<p class="text-lg font-medium" style:color={$colors.logo}>niagara</p>
+	<Notifier/>
 	<div class="flex gap-2 text-sm">
 		{#if !current_block}
 			<button class="hover:underline" on:click={reset}>reset</button>
@@ -223,7 +224,6 @@
 	</div>
 </div>
 <div class="min-h-screen flex place-items-center flex-col place-content-center px-4 md:px-8">
-	<Notifier/>
 	{#if current_block === 'help'}
 		<Help />
 	{:else if current_block === 'customize'}
