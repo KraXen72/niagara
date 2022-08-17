@@ -22,6 +22,7 @@
 
 	import Customize from '$lib/components/Customize.svelte';
 	import Help from '$lib/components/Help.svelte';
+	import Notifier, { timerEndNotification } from '$lib/components/Notifier.svelte';
 
 	let input: string;
 	let seconds: number = null;
@@ -123,6 +124,7 @@
 			seconds -= 1;
 			if (seconds === 0) {
 				clearInterval(interval);
+				timerEndNotification(input) // show a notification on end
 			}
 		}, 1000);
 	};
@@ -154,11 +156,15 @@
 	};
 
 	const toggleTimer = () => {
-		toggle_count += 1;
-		if (toggle_count % 2 === 1) {
-			start();
+		if (seconds !== 0) {
+			toggle_count += 1;
+			if (toggle_count % 2 === 1) {
+				start();
+			} else {
+				stop();
+			}
 		} else {
-			stop();
+			reset() // "resuming" the timer when seconds is 0 will go to input mode
 		}
 	};
 
@@ -216,7 +222,8 @@
 		{/if}
 	</div>
 </div>
-<div class="min-h-screen flex place-items-center place-content-center px-4 md:px-8">
+<div class="min-h-screen flex place-items-center flex-col place-content-center px-4 md:px-8">
+	<Notifier/>
 	{#if current_block === 'help'}
 		<Help />
 	{:else if current_block === 'customize'}
