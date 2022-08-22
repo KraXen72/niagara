@@ -117,6 +117,12 @@
 		}, 1);
 	};
 
+	const standardiseTime = (rawTimerLength: string) => {
+		const timerLengthSeconds = inputParser(rawTimerLength)
+    	const formattedTimerLength = formatTime(timerLengthSeconds)
+		return formattedTimerLength
+	}
+
 	let interval: NodeJS.Timer;
 
 	const start = () => {
@@ -124,7 +130,7 @@
 			seconds -= 1;
 			if (seconds === 0) {
 				clearInterval(interval);
-				timerEndNotification(input) // show a notification on end
+				timerEndNotification(standardiseTime(input)) // show a notification on end
 			}
 		}, 1000);
 	};
