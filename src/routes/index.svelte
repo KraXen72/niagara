@@ -22,6 +22,7 @@
 
 	import Customize from '$lib/components/Customize.svelte';
 	import Help from '$lib/components/Help.svelte';
+	import Notifier, { timerEndNotification } from '$lib/components/Notifier.svelte';
 
 	let input: string;
 	let seconds: number = null;
@@ -116,6 +117,12 @@
 		}, 1);
 	};
 
+	const standardiseTime = (rawTimerLength: string) => {
+		const timerLengthSeconds = inputParser(rawTimerLength)
+    	const formattedTimerLength = formatTime(timerLengthSeconds)
+		return formattedTimerLength
+	}
+
 	let interval: NodeJS.Timer;
 
 	const start = () => {
@@ -123,6 +130,7 @@
 			seconds -= 1;
 			if (seconds === 0) {
 				clearInterval(interval);
+				timerEndNotification(standardiseTime(input)) // show a notification on end
 			}
 		}, 1000);
 	};
@@ -154,11 +162,15 @@
 	};
 
 	const toggleTimer = () => {
-		toggle_count += 1;
-		if (toggle_count % 2 === 1) {
-			start();
+		if (seconds !== 0) {
+			toggle_count += 1;
+			if (toggle_count % 2 === 1) {
+				start();
+			} else {
+				stop();
+			}
 		} else {
-			stop();
+			reset() // "resuming" the timer when seconds is 0 will go to input mode
 		}
 	};
 
@@ -191,6 +203,7 @@
 <svelte:window on:keydown={handleKeydown} />
 <div class="absolute top-0 w-full flex p-4 sm:px-8 place-content-between place-items-center z-50">
 	<p class="text-lg font-medium" style:color={$colors.logo}>niagara</p>
+	<Notifier/>
 	<div class="flex gap-2 text-sm">
 		{#if !current_block}
 			<button class="hover:underline" on:click={reset}>reset</button>
@@ -216,7 +229,7 @@
 		{/if}
 	</div>
 </div>
-<div class="min-h-screen flex place-items-center place-content-center px-4 md:px-8">
+<div class="min-h-screen flex place-items-center flex-col place-content-center px-4 md:px-8">
 	{#if current_block === 'help'}
 		<Help />
 	{:else if current_block === 'customize'}
